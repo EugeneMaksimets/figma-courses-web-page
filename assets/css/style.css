@@ -1,12 +1,9 @@
 :root {
-  --bg-gradient: linear-gradient(180deg, #e0c3fc 0%, #8ec5fc 100%);
   --text-dark: #101828;
   --text-muted: #475467;
-  --blue-primary: #3b82f6;
-  --blue-dark: #1d4ed8;
-  --card-glass-bg: rgba(255, 255, 255, 0.45);
-  --card-glass-border: rgba(255, 255, 255, 0.6);
-  --card-glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  --card-glass-bg: rgba(255, 255, 255, 0.55);
+  --card-glass-border: rgba(255, 255, 255, 0.7);
+  --card-glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
 }
 
 * {
@@ -30,96 +27,70 @@ body {
   z-index: 2;
 }
 
+/* Base section style */
 .section {
   position: relative;
   padding: 60px 0;
-  background: linear-gradient(180deg, #e8ddff 0%, #c9dfff 50%, #dceaff 100%);
   overflow: hidden;
+}
+
+/* ================= BACKGROUNDS BY SECTIONS ================= */
+
+/* Секция 1 и Секция 3 — с фиолетово-голубым градиентом */
+.section-hero,
+.section-audience {
+  background: linear-gradient(180deg, #e8ddff 0%, #c9dfff 50%, #dceaff 100%);
+}
+
+/* Секция 2 и Секция 4 — сплошной серо-синий фон */
+.section-program,
+.section-faq {
+  background: #dbe8fb;
 }
 
 /* ================= PARALLAX GLOWS ================= */
 .glow {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
   pointer-events: none;
   z-index: 1;
-  opacity: 0.85;
-  transition: transform 0.1s linear;
+  will-change: transform;
 }
 
 .glow-top {
-  width: 500px;
-  height: 500px;
-  top: -50px;
-  left: -100px; /* Смещен влево */
-  right: auto;
-  /* Увеличенная насыщенность розового цвета */
-  background: radial-gradient(circle, rgba(255, 105, 180, 0.95) 0%, rgba(243, 144, 255, 0.6) 50%, transparent 80%);
-  filter: blur(65px); /* Меньше размытия для более четкого и яркого свечения */
-  z-index: 1;
+  width: 450px;
+  height: 450px;
+  top: -80px;
+  left: -120px;
+  background: radial-gradient(circle, rgba(255, 105, 180, 0.85) 0%, rgba(243, 144, 255, 0.5) 50%, transparent 75%);
+  filter: blur(60px);
 }
 
 .glow-middle-1 {
   width: 450px;
   height: 450px;
-  top: 30px;
-  left: -80px; /* Смещен влево */
-  right: auto;
-  background: radial-gradient(circle, rgba(255, 110, 190, 0.9) 0%, rgba(220, 130, 255, 0.5) 55%, transparent 80%);
-  filter: blur(65px);
-  z-index: 1;
-}
-
-.glow-bottom {
-  width: 500px;
-  height: 500px;
-  top: 400px;
-  left: -150px;
-  background: radial-gradient(circle, rgba(161, 196, 253, 0.9) 0%, rgba(194, 233, 251, 0.5) 70%, transparent 100%);
-}
-
-/* .glow-middle-1 {
-  width: 400px;
-  height: 400px;
-  top: 50px;
-  right: -50px;
-  background: radial-gradient(circle, rgba(255, 175, 204, 0.8) 0%, rgba(205, 180, 219, 0.4) 70%, transparent 100%);
-} */
-
-.glow-middle-2 {
-  width: 450px;
-  height: 450px;
-  bottom: 100px;
+  top: -50px;
   left: -100px;
-  background: radial-gradient(circle, rgba(184, 192, 255, 0.8) 0%, rgba(187, 208, 255, 0.4) 70%, transparent 100%);
+  background: radial-gradient(circle, rgba(255, 110, 190, 0.85) 0%, rgba(220, 130, 255, 0.5) 55%, transparent 75%);
+  filter: blur(60px);
 }
 
-/* ================= ЖЕЛТЫЕ БЛИКИ (НЕПОДВИЖНЫЕ) ================= */
 .glow-hero-yellow {
-  position: absolute;
-  pointer-events: none;
-  border-radius: 50%;
   width: 380px;
   height: 380px;
-  top: 180px;
-  left: -40px;
-  background: radial-gradient(circle, rgba(255, 235, 150, 0.5) 0%, rgba(255, 215, 0, 0.2) 60%, transparent 85%);
-  filter: blur(85px);
-  z-index: 1;
+  top: 150px;
+  left: -60px;
+  background: radial-gradient(circle, rgba(255, 235, 150, 0.6) 0%, rgba(255, 215, 0, 0.25) 60%, transparent 85%);
+  filter: blur(70px);
 }
 
 .glow-aud-yellow {
-  position: absolute;
-  pointer-events: none;
-  border-radius: 50%;
   width: 350px;
   height: 350px;
-  top: 220px;
-  left: -30px;
-  background: radial-gradient(circle, rgba(255, 240, 160, 0.45) 0%, rgba(255, 220, 100, 0.15) 60%, transparent 85%);
-  filter: blur(85px);
-  z-index: 1;
+  top: 180px;
+  left: -50px;
+  background: radial-gradient(circle, rgba(255, 240, 160, 0.55) 0%, rgba(255, 220, 100, 0.2) 60%, transparent 85%);
+  filter: blur(70px);
 }
 
 /* ================= GLASSMORPHISM CARD ================= */
@@ -206,7 +177,6 @@ body {
   font-weight: 600;
   box-shadow: 0 4px 15px rgba(0,0,0,0.08);
   margin-top: 4px;
-  position: relative;
 }
 
 .price-card {
@@ -228,7 +198,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* Кнопки */
 .btn {
   border: none;
   cursor: pointer;
@@ -317,7 +286,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 24px;
-  background: rgba(186, 210, 255, 0.5);
+  background: rgba(255, 255, 255, 0.65);
 }
 
 .card-content {
@@ -412,39 +381,29 @@ body {
 }
 
 .btn-pill {
-  /* Раньше стояло rgba(255, 255, 255, 0.7), меняем прозрачность фона на 0.35-0.45 */
   background: rgba(255, 255, 255, 0.2); 
-  
-  /* Эффект размытия заднего фона (матовое стекло) */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-
-  /* Светлая полупрозрачная рамка */
   border: 1px solid rgba(255, 255, 255, 0.8);
-  
-  /* Размеры и скругление */
   padding: 14px 40px;
   border-radius: 30px;
   font-size: 16px;
   font-weight: 700;
   color: #0f172a;
-
-  /* Небольшая мягкая тень */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Эффект при наведении мышкой */
 .btn-pill:hover {
   background: rgba(255, 255, 255, 0.6);
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
 }
 
-/* Настройки для самой PNG-иконки */
 .btn-icon {
-  width: 20px;  /* Ширина иконки */
-  height: 20px; /* Высота иконки */
+  width: 20px;
+  height: 20px;
   object-fit: contain;
 }
 
@@ -474,7 +433,7 @@ body {
   align-items: center;
   padding: 16px 20px;
   gap: 16px;
-  background: rgba(186, 210, 255, 0.55);
+  background: rgba(255, 255, 255, 0.65);
 }
 
 .faq-avatar {
@@ -507,7 +466,6 @@ body {
   box-shadow: 0 4px 15px rgba(233, 213, 255, 0.6);
 }
 
-/* ================= ADAPTIVE / MOBILE ================= */
 @media (max-width: 640px) {
   .stats-grid {
     flex-direction: row;

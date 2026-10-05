@@ -1,38 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
   const heroGlow = document.querySelector('.glow-top');
-  const otherGlows = document.querySelectorAll('.glow:not(.glow-top)');
+  const otherGlows = document.querySelectorAll('.glow[data-speed]:not(.glow-top)');
 
-  let mouseX = 0;
-  let mouseY = 0;
-  let currentX = 0;
-  let currentY = 0;
+  let targetMouseX = 0;
+  let targetMouseY = 0;
+  let currentMouseX = 0;
+  let currentMouseY = 0;
 
-  // 1. Параллакс от движения мыши на 1-м экране (Hero)
+  // 1. Движение мыши (для Hero блика)
   window.addEventListener('mousemove', (e) => {
-    // Вычисляем смещение от центра экрана
-    mouseX = (e.clientX - window.innerWidth / 2) * 0.08;
-    mouseY = (e.clientY - window.innerHeight / 2) * 0.08;
+    targetMouseX = (e.clientX - window.innerWidth / 2) * 0.05;
+    targetMouseY = (e.clientY - window.innerHeight / 2) * 0.05;
   });
 
-  // 2. Плавная анимация параллакса (Mouse + Scroll)
+  // 2. Плавная анимация кадра
   function animate() {
-    const scrolled = window.pageYOffset;
+    const scrolled = window.scrollY || window.pageYOffset;
 
-    // Для розового блика 1-го экрана объединяем скролл и движение мыши
+    // Плавный интерполированный сдвиг мыши
+    currentMouseX += (targetMouseX - currentMouseX) * 0.08;
+    currentMouseY += (targetMouseY - currentMouseY) * 0.08;
+
+    // Индивидуальный параллакс для Hero блика
     if (heroGlow) {
-      currentX += (mouseX - currentX) * 0.05;
-      currentY += (mouseY - currentY) * 0.05;
-
-      // Увеличенный сдвиг по вертикали при скролле (умножаем на 0.65)
-      const scrollY = scrolled * 0.65; 
-
-      heroGlow.style.transform = `translate3d(${currentX}px, ${scrollY + currentY}px, 0)`;
+      const speed = parseFloat(heroGlow.getAttribute('data-speed')) || 0.15;
+      const moveY = scrolled * speed + currentMouseY;
+      heroGlow.style.transform = `translate3d(${currentMouseX}px, ${moveY}px, 0)`;
     }
 
-    // Для остальных бликов (3-й экран) стандартный параллакс от скролла
+    // Параллакс для остальных бликов при скролле
     otherGlows.forEach((glow) => {
-      const speed = parseFloat(glow.getAttribute('data-speed')) || 0.3;
-      const moveY = scrolled * speed * 1.5;
+      const speed = parseFloat(glow.getAttribute('data-speed')) || 0.1;
+      const moveY = scrolled * speed;
       glow.style.transform = `translate3d(0, ${moveY}px, 0)`;
     });
 
