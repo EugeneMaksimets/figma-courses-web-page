@@ -1,38 +1,54 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const heroGlow = document.querySelector('.glow-top');
-  const otherGlows = document.querySelectorAll('.glow[data-speed]:not(.glow-top)');
+  const pinkGlows = document.querySelectorAll('.glow-pink-full');
 
-  let targetMouseX = 0;
-  let targetMouseY = 0;
+  let mouseX = 0;
+  let mouseY = 0;
   let currentMouseX = 0;
   let currentMouseY = 0;
 
-  // 1. Движение мыши (для Hero блика)
+  // Коэффициент скорости движения блика (например: 1.35 = на 35% быстрее скролла)
+  const SPEED_FACTOR = 1;
+
+  // Реакция на мышь
   window.addEventListener('mousemove', (e) => {
-    targetMouseX = (e.clientX - window.innerWidth / 2) * 0.05;
-    targetMouseY = (e.clientY - window.innerHeight / 2) * 0.05;
+    mouseX = (e.clientX - window.innerWidth / 2) * 0.1;
+    mouseY = (e.clientY - window.innerHeight / 2) * 0.1;
   });
 
-  // 2. Плавная анимация кадра
   function animate() {
-    const scrolled = window.scrollY || window.pageYOffset;
+    currentMouseX += (mouseX - currentMouseX) * 0.08;
+    currentMouseY += (mouseY - currentMouseY) * 0.08;
 
-    // Плавный интерполированный сдвиг мыши
-    currentMouseX += (targetMouseX - currentMouseX) * 0.08;
-    currentMouseY += (targetMouseY - currentMouseY) * 0.08;
+    pinkGlows.forEach((glow) => {
+      const section = glow.parentElement;
+      const rect = section.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
 
-    // Индивидуальный параллакс для Hero блика
-    if (heroGlow) {
-      const speed = parseFloat(heroGlow.getAttribute('data-speed')) || 0.15;
-      const moveY = scrolled * speed + currentMouseY;
-      heroGlow.style.transform = `translate3d(${currentMouseX}px, ${moveY}px, 0)`;
-    }
+      if (rect.bottom > -200 && rect.top < windowHeight + 200) {
+        const sectionHeight = section.offsetHeight;
 
-    // Параллакс для остальных бликов при скролле
-    otherGlows.forEach((glow) => {
-      const speed = parseFloat(glow.getAttribute('data-speed')) || 0.1;
-      const moveY = scrolled * speed;
-      glow.style.transform = `translate3d(0, ${moveY}px, 0)`;
+        let progress = 0;
+
+        if (section.classList.contains('section-hero')) {
+          // Для 1-й секции
+          progress = window.scrollY / (sectionHeight * 0.65);
+        } else {
+          // Для 3-й секции
+          const relativeTop = windowHeight - rect.top;
+          progress = relativeTop / (windowHeight + sectionHeight * 0.65);
+        }
+
+        // Применяем фактор скорости к прогрессу
+        const acceleratedProgress = progress * SPEED_FACTOR;
+
+        // Полный запас расстояния для глубокого ухода под следующую секцию
+        const totalTravel = sectionHeight * 1.4;
+
+        // Расчёт итоговой позиции по Y
+        const translateY = acceleratedProgress * totalTravel;
+
+        glow.style.transform = `translate3d(calc(-50% + ${currentMouseX}px), ${translateY + currentMouseY}px, 0)`;
+      }
     });
 
     requestAnimationFrame(animate);
